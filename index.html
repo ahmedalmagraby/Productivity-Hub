@@ -6,170 +6,362 @@
     <title>Productivity Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        :root {
+            --bg-primary: #f1f5f9; /* slate-100 */
+            --bg-secondary: #ffffff; /* white */
+            --text-primary: #1e293b; /* slate-800 */
+            --text-secondary: #475569; /* slate-600 */
+            --accent-primary: #0ea5e9; /* sky-600 */
+            --accent-secondary: #0284c7; /* sky-700 */
+            --border-color: #cbd5e1; /* slate-300 */
+            --input-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --modal-bg: #fefefe;
+            --modal-text: #000000;
+            --button-text: #ffffff;
+
+            --pomodoro-work-bg: #fee2e2; /* Light Red */
+            --pomodoro-short-break-bg: #d1fae5; /* Light Green */
+            --pomodoro-long-break-bg: #dbeafe; /* Light Blue */
+        }
+
+        .dark-theme {
+            --bg-primary: #1e293b; /* slate-800 */
+            --bg-secondary: #334155; /* slate-700 */
+            --text-primary: #f1f5f9; /* slate-100 */
+            --text-secondary: #94a3b8; /* slate-400 */
+            --accent-primary: #38bdf8; /* sky-500 */
+            --accent-secondary: #0ea5e9; /* sky-600 */
+            --border-color: #475569; /* slate-600 */
+            --input-bg: #475569; /* slate-600 */
+            --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+            --modal-bg: #334155;
+            --modal-text: #f1f5f9;
+
+            --pomodoro-work-bg: #581c87; /* Dark Purple for work */
+            --pomodoro-short-break-bg: #065f46; /* Dark Green for short break */
+            --pomodoro-long-break-bg: #1e40af; /* Dark Blue for long break */
+        }
+
+        .forest-theme {
+            --bg-primary: #f0fff4; /* honeydew */
+            --bg-secondary: #e6f5e0; /* light moss green */
+            --text-primary: #2f4f2f; /* dark slate green */
+            --text-secondary: #556b2f; /* dark olive green */
+            --accent-primary: #228b22; /* forest green */
+            --accent-secondary: #006400; /* dark green */
+            --border-color: #8fbc8f; /* dark sea green */
+            --input-bg: #e6f5e0;
+            --card-shadow: 0 4px 6px -1px rgba(47,79,47,0.2), 0 2px 4px -1px rgba(47,79,47,0.1);
+            --modal-bg: #e6f5e0;
+            --modal-text: #2f4f2f;
+
+            --pomodoro-work-bg: #ffebcd; /* blanchedalmond */
+            --pomodoro-short-break-bg: #90ee90; /* lightgreen */
+            --pomodoro-long-break-bg: #add8e6; /* lightblue */
+        }
+
+        .ocean-theme {
+            --bg-primary: #e0f7fa; /* light cyan */
+            --bg-secondary: #b2ebf2; /* lighter cyan */
+            --text-primary: #004d40; /* dark teal */
+            --text-secondary: #00796b; /* teal */
+            --accent-primary: #00bcd4; /* cyan */
+            --accent-secondary: #0097a7; /* darker cyan */
+            --border-color: #4dd0e1; /* light blue-cyan */
+            --input-bg: #b2ebf2;
+            --card-shadow: 0 4px 6px -1px rgba(0,77,64,0.2), 0 2px 4px -1px rgba(0,77,64,0.1);
+            --modal-bg: #b2ebf2;
+            --modal-text: #004d40;
+
+            --pomodoro-work-bg: #fff9c4; /* light yellow */
+            --pomodoro-short-break-bg: #c8e6c9; /* light green */
+            --pomodoro-long-break-bg: #bbdefb; /* light blue */
+        }
+
+
         body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             transition: background-color 0.3s, color 0.3s;
         }
-        .pomodoro-work {
-            background-color: #fee2e2; /* Light Red */
+        .section-card {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            box-shadow: var(--card-shadow);
         }
-        .pomodoro-short-break {
-            background-color: #d1fae5; /* Light Green */
+        .app-header h1 { color: var(--accent-primary); }
+        .app-header p { color: var(--text-secondary); } /* Styles both tagline and quote */
+        .module-title { color: var(--accent-secondary); }
+        .input-field {
+            background-color: var(--input-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
         }
-        .pomodoro-long-break {
-            background-color: #dbeafe; /* Light Blue */
+        .input-field:focus {
+            --tw-ring-color: var(--accent-primary);
+            border-color: var(--accent-primary);
         }
+        .button-primary {
+            background-color: var(--accent-primary);
+            color: var(--button-text);
+        }
+        .button-primary:hover {
+            background-color: var(--accent-secondary);
+        }
+        .button-danger { background-color: #ef4444; color: var(--button-text); }
+        .button-danger:hover { background-color: #dc2626; }
+        .button-success { background-color: #22c55e; color: var(--button-text); }
+        .button-success:hover { background-color: #16a34a; }
+        .button-warning { background-color: #f59e0b; color: var(--button-text); }
+        .button-warning:hover { background-color: #d97706; }
+        .button-info { background-color: #3b82f6; color: var(--button-text); }
+        .button-info:hover { background-color: #2563eb; }
+
+
+        .pomodoro-work { background-color: var(--pomodoro-work-bg) !important; }
+        .pomodoro-short-break { background-color: var(--pomodoro-short-break-bg) !important; }
+        .pomodoro-long-break { background-color: var(--pomodoro-long-break-bg) !important; }
+        
+        .task-item { background-color: var(--bg-primary); }
+        .task-item:hover { background-color: var(--border-color); }
         .task-item.completed span {
             text-decoration: line-through;
-            color: #9ca3af; /* Gray-400 */
+            color: var(--text-secondary);
         }
-        /* Custom scrollbar for task list */
-        #taskList::-webkit-scrollbar {
-            width: 8px;
-        }
-        #taskList::-webkit-scrollbar-track {
-            background: #f1f5f9; /* Slate-100 */
-            border-radius: 10px;
-        }
-        #taskList::-webkit-scrollbar-thumb {
-            background: #94a3b8; /* Slate-400 */
-            border-radius: 10px;
-        }
-        #taskList::-webkit-scrollbar-thumb:hover {
-            background: #64748b; /* Slate-500 */
-        }
-        /* Modal styles */
+        #taskList::-webkit-scrollbar-track { background: var(--bg-primary); }
+        #taskList::-webkit-scrollbar-thumb { background: var(--text-secondary); }
+        #taskList::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 100; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            display: none; position: fixed; z-index: 100; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
         }
         .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-            max-width: 500px;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: var(--modal-bg);
+            color: var(--modal-text);
+            margin: 10% auto; padding: 20px; border: 1px solid var(--border-color);
+            width: 90%; max-width: 600px; border-radius: 0.5rem; box-shadow: var(--card-shadow);
         }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        /* For better visual feedback on buttons */
-        button:active {
-            transform: translateY(1px);
+        .modal-content h3 { color: var(--accent-secondary); }
+        .close-button { color: var(--text-secondary); float: right; font-size: 28px; font-weight: bold; }
+        .close-button:hover, .close-button:focus { color: var(--text-primary); text-decoration: none; cursor: pointer; }
+        
+        button:active { transform: translateY(1px); }
+
+        /* Draggable styles */
+        .task-item.dragging { opacity: 0.5; background: var(--accent-primary) !important; }
+        .task-item.drag-over { border-top: 2px solid var(--accent-primary); }
+
+        #binauralVisualizer {
+            width: 100%;
+            height: 60px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem; /* rounded-md */
+            margin-top: 0.75rem; /* mt-3 */
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased">
+<body class="antialiased">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-sky-600">Productivity Hub</h1>
-            <p class="text-slate-600 mt-2">Your all-in-one tool for focus and task management.</p>
+    <div class="container mx-auto p-4 md:p-6 lg:p-8 max-w-6xl">
+        <header class="app-header text-center mb-6 md:mb-8">
+            <div class="relative flex justify-center items-center py-2 mb-2">
+                <button id="infoBtn" class="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-opacity-20 hover:bg-slate-500 transition-colors" title="App Information">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">Productivity Hub</h1>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2"> <label for="themeSwitcher" class="sr-only">Select Theme</label>
+                    <select id="themeSwitcher" class="input-field p-2 rounded-md text-sm">
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="forest">Forest Theme</option>
+                        <option value="ocean">Ocean Theme</option>
+                    </select>
+                </div>
+            </div>
+            <p class="tagline text-sm md:text-base mt-1">Your all-in-one tool for focus and task management.</p>
+            <p id="motivationalQuote" class="text-sm md:text-base mt-2 italic min-h-[20px]"></p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <section id="todoModule" class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-4 text-sky-700">My Tasks</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <section id="todoModule" class="section-card p-4 sm:p-6 rounded-lg lg:col-span-2">
+                <h2 class="module-title text-xl sm:text-2xl font-semibold mb-4">My Tasks</h2>
                 <div class="flex mb-4">
-                    <input type="text" id="taskInput" class="flex-grow p-3 border border-slate-300 rounded-l-md focus:ring-sky-500 focus:border-sky-500" placeholder="Add a new task...">
-                    <button id="addTaskBtn" class="bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-r-md transition-colors">Add</button>
+                    <input type="text" id="taskInput" class="input-field flex-grow p-3 border rounded-l-md" placeholder="Add a new task...">
+                    <button id="addTaskBtn" class="button-primary p-3 rounded-r-md transition-colors">Add</button>
                 </div>
                 <ul id="taskList" class="space-y-2 max-h-80 overflow-y-auto pr-2">
                     </ul>
-                <div class="mt-4 flex justify-between items-center">
-                    <button id="clearCompletedBtn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors text-sm">Clear Completed</button>
-                    <span id="taskCount" class="text-sm text-slate-500">0 tasks</span>
+                <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+                    <button id="clearCompletedBtn" class="button-danger py-2 px-4 rounded-md transition-colors text-sm w-full sm:w-auto">Clear Completed</button>
+                    <span id="taskCount" class="text-sm">0 tasks</span>
                 </div>
             </section>
 
-            <section id="pomodoroModule" class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-1 text-sky-700">Pomodoro Timer</h2>
-                <p id="pomodoroSessionType" class="text-center text-lg font-medium text-slate-600 mb-2">Work Session</p>
-                <div id="pomodoroDisplay" class="text-6xl md:text-7xl font-bold text-center my-4 text-sky-600">25:00</div>
-                <div id="pomodoroCycle" class="text-center text-sm text-slate-500 mb-4">Session 1/4</div>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-                    <button id="pomodoroStart" class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-md transition-colors">Start</button>
-                    <button id="pomodoroPause" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-3 rounded-md transition-colors">Pause</button>
-                    <button id="pomodoroReset" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-3 rounded-md transition-colors">Reset</button>
-                    <button id="pomodoroSkip" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-md transition-colors">Skip</button>
+            <section id="pomodoroModule" class="section-card p-4 sm:p-6 rounded-lg lg:row-span-2">
+                <h2 class="module-title text-xl sm:text-2xl font-semibold mb-1">Pomodoro Timer</h2>
+                <p id="pomodoroSessionType" class="text-center text-lg font-medium mb-2">Work Session</p>
+                <div id="pomodoroDisplay" class="text-5xl sm:text-6xl md:text-7xl font-bold text-center my-3 sm:my-4">25:00</div>
+                <div id="pomodoroCycle" class="text-center text-sm mb-4">Session 1/4</div>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <button id="pomodoroStart" class="button-success py-2 px-3 rounded-md transition-colors">Start</button>
+                    <button id="pomodoroPause" class="button-warning py-2 px-3 rounded-md transition-colors">Pause</button>
+                    <button id="pomodoroReset" class="button-info py-2 px-3 rounded-md transition-colors">Reset</button>
+                    <button id="pomodoroSkip" class="button-primary py-2 px-3 rounded-md transition-colors">Skip</button>
                 </div>
                 <details class="group">
-                    <summary class="text-sm text-slate-600 cursor-pointer hover:text-sky-600 mb-2">Timer Settings</summary>
-                    <div class="mt-2 space-y-2 bg-slate-50 p-3 rounded-md">
+                    <summary class="text-sm cursor-pointer hover:text-[var(--accent-primary)] mb-2">Timer & Sound Settings</summary>
+                    <div class="mt-2 space-y-3 bg-opacity-50 bg-[var(--border-color)] p-3 rounded-md">
                         <div>
-                            <label for="workDuration" class="block text-xs font-medium text-slate-700">Work (min):</label>
-                            <input type="number" id="workDuration" value="25" min="1" class="w-full p-1.5 border border-slate-300 rounded-md text-sm focus:ring-sky-500 focus:border-sky-500">
+                            <label for="workDuration" class="block text-xs font-medium">Work (min):</label>
+                            <input type="number" id="workDuration" value="25" min="1" class="input-field w-full p-1.5 border rounded-md text-sm">
                         </div>
                         <div>
-                            <label for="shortBreakDuration" class="block text-xs font-medium text-slate-700">Short Break (min):</label>
-                            <input type="number" id="shortBreakDuration" value="5" min="1" class="w-full p-1.5 border border-slate-300 rounded-md text-sm focus:ring-sky-500 focus:border-sky-500">
+                            <label for="shortBreakDuration" class="block text-xs font-medium">Short Break (min):</label>
+                            <input type="number" id="shortBreakDuration" value="5" min="1" class="input-field w-full p-1.5 border rounded-md text-sm">
                         </div>
                         <div>
-                            <label for="longBreakDuration" class="block text-xs font-medium text-slate-700">Long Break (min):</label>
-                            <input type="number" id="longBreakDuration" value="15" min="1" class="w-full p-1.5 border border-slate-300 rounded-md text-sm focus:ring-sky-500 focus:border-sky-500">
+                            <label for="longBreakDuration" class="block text-xs font-medium">Long Break (min):</label>
+                            <input type="number" id="longBreakDuration" value="15" min="1" class="input-field w-full p-1.5 border rounded-md text-sm">
                         </div>
-                         <button id="savePomodoroSettings" class="w-full mt-2 bg-sky-500 hover:bg-sky-600 text-white py-1.5 px-3 rounded-md transition-colors text-sm">Save Settings</button>
+                        <div class="pt-2">
+                             <label class="flex items-center text-xs font-medium">
+                                <input type="checkbox" id="autoPlayBinaural" class="form-checkbox h-4 w-4 text-[var(--accent-primary)] rounded border-[var(--border-color)] focus:ring-[var(--accent-primary)] mr-2">
+                                Auto-play beats during Work
+                            </label>
+                            <select id="autoPlayBinauralFreq" class="input-field w-full p-1.5 border rounded-md text-sm mt-1">
+                                <option value="10">Alpha (10Hz) - Calm Focus</option>
+                                <option value="2">Delta (2Hz) - Deep Sleep</option>
+                                <option value="6">Theta (6Hz) - Meditation</option>
+                                <option value="20">Beta (20Hz) - Alertness</option>
+                                <option value="40">Gamma (40Hz) - High Cognition</option>
+                            </select>
+                        </div>
+                         <button id="savePomodoroSettings" class="w-full mt-2 button-primary py-1.5 px-3 rounded-md transition-colors text-sm">Save Settings</button>
                     </div>
                 </details>
             </section>
+            
+            <section id="binauralModule" class="section-card p-4 sm:p-6 rounded-lg lg:col-start-1 lg:col-span-2">
+                <h2 class="module-title text-xl sm:text-2xl font-semibold mb-4">Binaural Beats</h2>
+                <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+                    <button id="binauralPlayPause" class="button-success py-2 px-6 rounded-md transition-colors w-full sm:w-auto">Play</button>
+                    <div class="flex-grow w-full sm:w-auto">
+                        <label for="binauralFrequency" class="block text-sm font-medium">Frequency (Hz Difference):</label>
+                        <select id="binauralFrequency" class="input-field w-full p-2 border rounded-md">
+                            <option value="2">Delta (2Hz) - Deep Sleep</option>
+                            <option value="6">Theta (6Hz) - Meditation</option>
+                            <option value="10" selected>Alpha (10Hz) - Calm Focus</option>
+                            <option value="20">Beta (20Hz) - Alertness</option>
+                            <option value="40">Gamma (40Hz) - High Cognition</option>
+                        </select>
+                    </div>
+                    <div class="flex-grow w-full sm:w-auto">
+                        <label for="binauralVolume" class="block text-sm font-medium">Volume:</label>
+                        <input type="range" id="binauralVolume" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-[var(--border-color)] rounded-lg appearance-none cursor-pointer accent-[var(--accent-primary)]">
+                    </div>
+                </div>
+                <canvas id="binauralVisualizer"></canvas>
+                <p id="binauralStatus" class="text-sm mt-3">Status: Stopped</p>
+            </section>
         </div>
-
-        <section id="binauralModule" class="bg-white p-6 rounded-lg shadow-lg mt-6">
-            <h2 class="text-2xl font-semibold mb-4 text-sky-700">Binaural Beats</h2>
-            <div class="flex flex-col sm:flex-row items-center gap-4">
-                <button id="binauralPlayPause" class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-6 rounded-md transition-colors w-full sm:w-auto">Play</button>
-                <div class="flex-grow w-full sm:w-auto">
-                    <label for="binauralFrequency" class="block text-sm font-medium text-slate-700">Frequency (Hz Difference):</label>
-                    <select id="binauralFrequency" class="w-full p-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                        <option value="2">Delta (2Hz) - Deep Sleep</option>
-                        <option value="6">Theta (6Hz) - Meditation</option>
-                        <option value="10" selected>Alpha (10Hz) - Calm Focus</option>
-                        <option value="20">Beta (20Hz) - Alertness</option>
-                        <option value="40">Gamma (40Hz) - High Cognition</option>
-                    </select>
-                </div>
-                <div class="flex-grow w-full sm:w-auto">
-                    <label for="binauralVolume" class="block text-sm font-medium text-slate-700">Volume:</label>
-                    <input type="range" id="binauralVolume" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-500">
-                </div>
-            </div>
-            <p id="binauralStatus" class="text-sm text-slate-500 mt-3">Status: Stopped</p>
-        </section>
     </div>
 
     <div id="editTaskModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" id="closeModalBtn">&times;</span>
+            <span class="close-button" id="closeEditModalBtn">&times;</span>
             <h3 class="text-xl font-semibold mb-3">Edit Task</h3>
-            <input type="text" id="editTaskInput" class="w-full p-2 border border-slate-300 rounded-md mb-3">
+            <input type="text" id="editTaskInput" class="input-field w-full p-2 border rounded-md mb-3">
             <input type="hidden" id="editTaskId">
-            <button id="saveEditTaskBtn" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-4 rounded-md">Save Changes</button>
+            <button id="saveEditTaskBtn" class="button-primary py-2 px-4 rounded-md">Save Changes</button>
         </div>
     </div>
 
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeInfoModalBtn">&times;</span>
+            <h3 class="text-xl font-semibold mb-3">About Productivity Hub</h3>
+            <div class="space-y-3 text-sm max-h-[60vh] overflow-y-auto pr-2">
+                <p>Welcome to Productivity Hub! This tool combines a To-Do List, Pomodoro Timer, and Binaural Beats Player to help you stay focused and manage your tasks effectively.</p>
+                
+                <h4 class="font-semibold mt-2">How to Use:</h4>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>To-Do List:</strong> Add tasks, mark them complete, edit, or delete them. Tasks are saved in your browser. Drag and drop to reorder.</li>
+                    <li><strong>Pomodoro Timer:</strong> Use the classic Pomodoro Technique (25 min work, 5 min short break, 15 min long break after 4 work sessions). Durations are customizable. The timer will notify you with a sound at the start and end of each session. A motivational quote is displayed in the main header.</li>
+                    <li><strong>Binaural Beats:</strong> Listen to specific sound frequencies to aid focus, relaxation, or sleep. Headphones are recommended for the best effect. Adjust frequency and volume as needed. You can also enable beats to play automatically during work sessions in the Pomodoro settings.</li>
+                </ul>
+
+                <h4 class="font-semibold mt-2">Benefits:</h4>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Pomodoro:</strong> Improves focus, reduces burnout, and helps manage distractions by breaking work into manageable intervals.</li>
+                    <li><strong>Binaural Beats:</strong> May help synchronize brainwaves to desired states. Different frequencies are associated with different mental states:
+                        <ul class="list-disc list-inside ml-4 mt-1">
+                            <li><strong>Delta (0.5-4 Hz):</strong> Deep sleep, pain relief.</li>
+                            <li><strong>Theta (4-8 Hz):</strong> Meditation, deep relaxation, creativity.</li>
+                            <li><strong>Alpha (8-13 Hz):</strong> Calm focus, light relaxation, stress reduction.</li>
+                            <li><strong>Beta (13-30 Hz):</strong> Active thinking, alertness, problem-solving.</li>
+                            <li><strong>Gamma (30-100 Hz):</strong> High-level cognition, peak focus, information processing.</li>
+                        </ul>
+                    </li>
+                </ul>
+                 <p class="mt-2">All your settings and tasks are saved locally in your browser and are not shared anywhere.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Shared Utility ---
+            // --- Theme Switcher ---
+            const themeSwitcher = document.getElementById('themeSwitcher');
+            const body = document.body;
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            const applyTheme = (themeName) => {
+                body.className = themeName + '-theme antialiased'; // Keep antialiased
+                localStorage.setItem('theme', themeName);
+                themeSwitcher.value = themeName;
+            };
+            themeSwitcher.addEventListener('change', (e) => applyTheme(e.target.value));
+            applyTheme(savedTheme); // Apply saved theme on load
+
+            // --- Motivational Quotes ---
+            const quoteElement = document.getElementById('motivationalQuote'); // Targets the quote element in the main header
+            const quotes = [
+                "The secret of getting ahead is getting started.",
+                "Focus on being productive instead of busy.",
+                "The key is not to prioritize what's on your schedule, but to schedule your priorities.",
+                "Do the hard jobs first. The easy jobs will take care of themselves.",
+                "Productivity is never an accident. It is always the result of a commitment to excellence, intelligent planning, and focused effort.",
+                "Your future is created by what you do today, not tomorrow.",
+                "The best way to predict the future is to create it.",
+                "Don't watch the clock; do what it does. Keep going.",
+                "Success is the sum of small efforts, repeated day in and day out.",
+                "Believe you can and you're halfway there.",
+                "One day or day one. You decide.",
+                "The only way to do great work is to love what you do.",
+                "Strive not to be a success, but rather to be of value.",
+                "Action is the foundational key to all success."
+            ];
+            const displayRandomQuote = () => {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                quoteElement.textContent = quotes[randomIndex];
+            };
+            displayRandomQuote(); // Initial quote
+
+            // --- Info Modal ---
+            const infoBtn = document.getElementById('infoBtn');
+            const infoModal = document.getElementById('infoModal');
+            const closeInfoModalBtn = document.getElementById('closeInfoModalBtn');
+            infoBtn.addEventListener('click', () => infoModal.style.display = 'block');
+            closeInfoModalBtn.addEventListener('click', () => infoModal.style.display = 'none');
+
+
+            // --- Shared Utility (for Edit Modal) ---
             const showModal = (modalId) => document.getElementById(modalId).style.display = 'block';
             const closeModal = (modalId) => document.getElementById(modalId).style.display = 'none';
 
@@ -180,14 +372,14 @@
             const clearCompletedBtn = document.getElementById('clearCompletedBtn');
             const taskCountElement = document.getElementById('taskCount');
             
-            // Edit Modal Elements
             const editTaskModal = document.getElementById('editTaskModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
+            const closeEditModalBtn = document.getElementById('closeEditModalBtn');
             const editTaskInput = document.getElementById('editTaskInput');
             const saveEditTaskBtn = document.getElementById('saveEditTaskBtn');
             const editTaskIdInput = document.getElementById('editTaskId');
 
             let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let draggedItem = null; // For drag and drop
 
             const saveTasks = () => {
                 localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -201,17 +393,19 @@
             const renderTasks = () => {
                 taskList.innerHTML = '';
                 if (tasks.length === 0) {
-                    taskList.innerHTML = '<li class="text-slate-500 text-center italic">No tasks yet. Add one!</li>';
+                    taskList.innerHTML = '<li class="text-[var(--text-secondary)] text-center italic p-3">No tasks yet. Add one!</li>';
                 }
-                tasks.forEach(task => {
+                tasks.forEach((task, index) => {
                     const li = document.createElement('li');
-                    li.className = `task-item flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 rounded-md shadow-sm transition-colors ${task.completed ? 'completed' : ''}`;
+                    li.className = `task-item flex items-center justify-between p-3 rounded-md shadow-sm transition-colors cursor-grab ${task.completed ? 'completed' : ''}`;
                     li.dataset.id = task.id;
+                    li.dataset.index = index; // For drag and drop
+                    li.draggable = true;
 
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.checked = task.completed;
-                    checkbox.className = 'form-checkbox h-5 w-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500 mr-3 cursor-pointer';
+                    checkbox.className = 'form-checkbox h-5 w-5 text-[var(--accent-primary)] rounded border-[var(--border-color)] focus:ring-[var(--accent-primary)] mr-3 cursor-pointer';
                     checkbox.addEventListener('change', () => toggleComplete(task.id));
 
                     const span = document.createElement('span');
@@ -222,13 +416,13 @@
                     editBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 hover:text-yellow-600" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>`;
                     editBtn.className = 'p-1 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400';
                     editBtn.title = "Edit task";
-                    editBtn.addEventListener('click', () => openEditModal(task.id, task.text));
+                    editBtn.addEventListener('click', (e) => { e.stopPropagation(); openEditModal(task.id, task.text); });
                     
                     const deleteBtn = document.createElement('button');
                     deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`;
                     deleteBtn.className = 'p-1 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 ml-2';
                     deleteBtn.title = "Delete task";
-                    deleteBtn.addEventListener('click', () => deleteTask(task.id));
+                    deleteBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteTask(task.id); });
 
                     const controlsDiv = document.createElement('div');
                     controlsDiv.className = 'flex items-center';
@@ -238,10 +432,59 @@
                     li.appendChild(checkbox);
                     li.appendChild(span);
                     li.appendChild(controlsDiv);
+
+                    // Drag and Drop Event Listeners
+                    li.addEventListener('dragstart', handleDragStart);
+                    li.addEventListener('dragover', handleDragOver);
+                    li.addEventListener('drop', handleDrop);
+                    li.addEventListener('dragend', handleDragEnd);
+
                     taskList.appendChild(li);
                 });
                 updateTaskCount();
             };
+            
+            function handleDragStart(e) {
+                draggedItem = this;
+                setTimeout(() => this.classList.add('dragging'), 0);
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', this.dataset.id); 
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                this.classList.add('drag-over'); 
+            }
+            
+            function handleDrop(e) {
+                e.preventDefault();
+                e.stopPropagation(); 
+                this.classList.remove('drag-over');
+                if (draggedItem !== this) {
+                    const fromIndex = parseInt(draggedItem.dataset.index);
+                    const toIndex = parseInt(this.dataset.index);
+                    
+                    const [movedTask] = tasks.splice(fromIndex, 1);
+                    tasks.splice(toIndex, 0, movedTask);
+
+                    saveTasks();
+                    renderTasks(); 
+                }
+            }
+
+            function handleDragEnd() {
+                this.classList.remove('dragging');
+                document.querySelectorAll('.task-item.drag-over').forEach(item => item.classList.remove('drag-over'));
+                draggedItem = null;
+            }
+
+            taskList.addEventListener('dragleave', (e) => {
+                if (e.target.classList.contains('task-item')) {
+                    e.target.classList.remove('drag-over');
+                }
+            });
+
 
             const addTask = () => {
                 const text = taskInput.value.trim();
@@ -287,14 +530,18 @@
                     renderTasks();
                     closeModal('editTaskModal');
                 } else {
-                    alert("Task text cannot be empty."); // Replace with custom modal later if desired
+                    const customAlert = document.createElement('div');
+                    customAlert.textContent = "Task text cannot be empty.";
+                    customAlert.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background-color:var(--pomodoro-work-bg); color:var(--text-primary); padding:10px 20px; border-radius:5px; box-shadow:var(--card-shadow); z-index:1000;";
+                    document.body.appendChild(customAlert);
+                    setTimeout(() => customAlert.remove(), 3000);
                 }
             };
 
             addTaskBtn.addEventListener('click', addTask);
             taskInput.addEventListener('keypress', (e) => e.key === 'Enter' && addTask());
             clearCompletedBtn.addEventListener('click', clearCompleted);
-            closeModalBtn.addEventListener('click', () => closeModal('editTaskModal'));
+            closeEditModalBtn.addEventListener('click', () => closeModal('editTaskModal'));
             saveEditTaskBtn.addEventListener('click', saveEditedTask);
             editTaskInput.addEventListener('keypress', (e) => e.key === 'Enter' && saveEditedTask());
 
@@ -312,23 +559,28 @@
             const longBreakDurationInput = document.getElementById('longBreakDuration');
             const savePomodoroSettingsBtn = document.getElementById('savePomodoroSettings');
             const pomodoroModuleSection = document.getElementById('pomodoroModule');
+            const autoPlayBinauralCheckbox = document.getElementById('autoPlayBinaural');
+            const autoPlayBinauralFreqSelect = document.getElementById('autoPlayBinauralFreq');
+
 
             let pomodoroSettings = JSON.parse(localStorage.getItem('pomodoroSettings')) || {
                 work: 25,
                 shortBreak: 5,
                 longBreak: 15,
-                sessionsBeforeLongBreak: 4
+                sessionsBeforeLongBreak: 4,
+                autoPlayBeats: false,
+                autoPlayBeatsFreq: "10"
             };
 
             let currentPomodoroState = JSON.parse(localStorage.getItem('currentPomodoroState')) || {
-                sessionType: 'work', // 'work', 'shortBreak', 'longBreak'
+                sessionType: 'work', 
                 timeLeft: pomodoroSettings.work * 60,
                 isRunning: false,
-                cycleCount: 1 // Work cycles completed
+                cycleCount: 1 
             };
             
             let pomodoroInterval;
-            let pomodoroAudioCtx; // For notification sounds
+            let pomodoroAudioCtx; 
 
             const savePomodoroState = () => {
                 localStorage.setItem('currentPomodoroState', JSON.stringify(currentPomodoroState));
@@ -342,47 +594,62 @@
                 pomodoroSettings.work = parseInt(workDurationInput.value) || 25;
                 pomodoroSettings.shortBreak = parseInt(shortBreakDurationInput.value) || 5;
                 pomodoroSettings.longBreak = parseInt(longBreakDurationInput.value) || 15;
+                pomodoroSettings.autoPlayBeats = autoPlayBinauralCheckbox.checked;
+                pomodoroSettings.autoPlayBeatsFreq = autoPlayBinauralFreqSelect.value;
+
                 savePomodoroSettingsToStorage();
-                // If not running, reset timer to new work duration
                 if (!currentPomodoroState.isRunning && currentPomodoroState.sessionType === 'work') {
                     currentPomodoroState.timeLeft = pomodoroSettings.work * 60;
+                } else if (!currentPomodoroState.isRunning && currentPomodoroState.sessionType === 'shortBreak') {
+                     currentPomodoroState.timeLeft = pomodoroSettings.shortBreak * 60;
+                } else if (!currentPomodoroState.isRunning && currentPomodoroState.sessionType === 'longBreak') {
+                     currentPomodoroState.timeLeft = pomodoroSettings.longBreak * 60;
                 }
                 updatePomodoroDisplay();
-                alert("Pomodoro settings saved!"); // Simple feedback
+
+                const customAlert = document.createElement('div');
+                customAlert.textContent = "Pomodoro settings saved!";
+                customAlert.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background-color:var(--pomodoro-short-break-bg); color:var(--text-primary); padding:10px 20px; border-radius:5px; box-shadow:var(--card-shadow); z-index:1000;";
+                document.body.appendChild(customAlert);
+                setTimeout(() => customAlert.remove(), 2000);
             };
             savePomodoroSettingsBtn.addEventListener('click', updatePomodoroDurationsFromInput);
 
 
             const playPomodoroSound = (type = 'end') => {
                 if (!pomodoroAudioCtx) {
-                    pomodoroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    try {
+                        pomodoroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) {
+                        console.error("Web Audio API not supported or context creation failed for Pomodoro sounds.", e);
+                        return;
+                    }
                 }
-                if (!pomodoroAudioCtx) return; // Web Audio not supported
+                if (pomodoroAudioCtx.state === 'suspended') {
+                    pomodoroAudioCtx.resume().catch(e => console.error("Error resuming Pomodoro AudioContext:", e));
+                }
+                if (!pomodoroAudioCtx) return;
 
                 const oscillator = pomodoroAudioCtx.createOscillator();
                 const gainNode = pomodoroAudioCtx.createGain();
-
                 oscillator.connect(gainNode);
                 gainNode.connect(pomodoroAudioCtx.destination);
-
-                gainNode.gain.setValueAtTime(0.3, pomodoroAudioCtx.currentTime); // Volume
+                gainNode.gain.setValueAtTime(0.2, pomodoroAudioCtx.currentTime); 
 
                 if (type === 'start') {
-                    oscillator.frequency.setValueAtTime(660, pomodoroAudioCtx.currentTime); // A5
+                    oscillator.frequency.setValueAtTime(660, pomodoroAudioCtx.currentTime); 
                     oscillator.start();
                     oscillator.stop(pomodoroAudioCtx.currentTime + 0.15);
-                } else { // 'end' or other
-                    oscillator.frequency.setValueAtTime(880, pomodoroAudioCtx.currentTime); // C6
+                } else { 
+                    oscillator.frequency.setValueAtTime(880, pomodoroAudioCtx.currentTime); 
                     oscillator.start();
                     oscillator.stop(pomodoroAudioCtx.currentTime + 0.2);
-
-                    // Second beep for end
                     setTimeout(() => {
                         const osc2 = pomodoroAudioCtx.createOscillator();
                         const gain2 = pomodoroAudioCtx.createGain();
                         osc2.connect(gain2);
                         gain2.connect(pomodoroAudioCtx.destination);
-                        gain2.gain.setValueAtTime(0.3, pomodoroAudioCtx.currentTime);
+                        gain2.gain.setValueAtTime(0.2, pomodoroAudioCtx.currentTime);
                         osc2.frequency.setValueAtTime(880, pomodoroAudioCtx.currentTime);
                         osc2.start();
                         osc2.stop(pomodoroAudioCtx.currentTime + 0.2);
@@ -413,7 +680,7 @@
                         break;
                 }
                 pomodoroSessionTypeDisplay.textContent = sessionText;
-                document.title = `${pomodoroDisplay.textContent} - ${sessionText}`;
+                document.title = `${pomodoroDisplay.textContent} - ${sessionText} | Productivity Hub`;
                 pomodoroCycleDisplay.textContent = `Session ${currentPomodoroState.cycleCount}/${pomodoroSettings.sessionsBeforeLongBreak}`;
             };
 
@@ -421,27 +688,28 @@
                 clearInterval(pomodoroInterval);
                 currentPomodoroState.isRunning = false;
                 if (!skipped) playPomodoroSound('end');
+                displayRandomQuote(); // New quote on session change (targets main header quote element)
+
+                if (pomodoroSettings.autoPlayBeats && isBinauralPlaying && currentPomodoroState.sessionType === 'work') {
+                    stopBinauralBeats();
+                }
 
                 if (currentPomodoroState.sessionType === 'work') {
-                    if (currentPomodoroState.cycleCount >= pomodoroSettings.sessionsBeforeLongBreak) {
+                    currentPomodoroState.cycleCount++; 
+                    if (currentPomodoroState.cycleCount > pomodoroSettings.sessionsBeforeLongBreak) {
                         currentPomodoroState.sessionType = 'longBreak';
                         currentPomodoroState.timeLeft = pomodoroSettings.longBreak * 60;
-                        currentPomodoroState.cycleCount = 0; // Reset for next set of work sessions
+                        currentPomodoroState.cycleCount = 1; 
                     } else {
                         currentPomodoroState.sessionType = 'shortBreak';
                         currentPomodoroState.timeLeft = pomodoroSettings.shortBreak * 60;
                     }
-                } else { // Was 'shortBreak' or 'longBreak'
+                } else { 
                     currentPomodoroState.sessionType = 'work';
                     currentPomodoroState.timeLeft = pomodoroSettings.work * 60;
-                    if (currentPomodoroState.sessionType !== 'longBreak') { // Don't increment if coming from long break
-                         currentPomodoroState.cycleCount++;
-                    }
                 }
                 updatePomodoroDisplay();
                 savePomodoroState();
-                // Optionally auto-start next session or wait for user
-                // For now, we wait for user to click start
             };
 
             const tickPomodoro = () => {
@@ -456,28 +724,25 @@
 
             pomodoroStartBtn.addEventListener('click', () => {
                 if (!currentPomodoroState.isRunning) {
-                    // Resume AudioContext if suspended (required by browsers)
-                    if (pomodoroAudioCtx && pomodoroAudioCtx.state === 'suspended') {
-                        pomodoroAudioCtx.resume();
-                    }
-                    if (binauralAudioCtx && binauralAudioCtx.state === 'suspended') {
-                        binauralAudioCtx.resume();
-                    }
+                    if (pomodoroAudioCtx && pomodoroAudioCtx.state === 'suspended') { pomodoroAudioCtx.resume(); }
+                    if (binauralAudioCtx && binauralAudioCtx.state === 'suspended') { binauralAudioCtx.resume(); }
 
                     currentPomodoroState.isRunning = true;
-                    // If timer was at 0, and we click start, it means we start the *current* session type
-                    // (e.g., after a break ended, user clicks start for the new work session)
                     if (currentPomodoroState.timeLeft === 0) {
-                        // This logic is now handled by startNextPomodoroSession,
-                        // but ensure timeLeft is set correctly if it was 0
                         if (currentPomodoroState.sessionType === 'work') currentPomodoroState.timeLeft = pomodoroSettings.work * 60;
                         else if (currentPomodoroState.sessionType === 'shortBreak') currentPomodoroState.timeLeft = pomodoroSettings.shortBreak * 60;
                         else if (currentPomodoroState.sessionType === 'longBreak') currentPomodoroState.timeLeft = pomodoroSettings.longBreak * 60;
                     }
                     
                     pomodoroInterval = setInterval(tickPomodoro, 1000);
-                    updatePomodoroDisplay(); // Update display immediately
+                    updatePomodoroDisplay(); 
                     playPomodoroSound('start');
+                    displayRandomQuote(); // Update quote when timer starts
+
+                    if (currentPomodoroState.sessionType === 'work' && pomodoroSettings.autoPlayBeats && !isBinauralPlaying) {
+                        binauralFrequencySelect.value = pomodoroSettings.autoPlayBeatsFreq;
+                        playBinauralBeats();
+                    }
                     savePomodoroState();
                 }
             });
@@ -486,6 +751,9 @@
                 if (currentPomodoroState.isRunning) {
                     clearInterval(pomodoroInterval);
                     currentPomodoroState.isRunning = false;
+                    if (pomodoroSettings.autoPlayBeats && isBinauralPlaying && currentPomodoroState.sessionType === 'work') {
+                        stopBinauralBeats(); 
+                    }
                     savePomodoroState();
                 }
             });
@@ -493,6 +761,9 @@
             pomodoroResetBtn.addEventListener('click', () => {
                 clearInterval(pomodoroInterval);
                 currentPomodoroState.isRunning = false;
+                if (pomodoroSettings.autoPlayBeats && isBinauralPlaying) {
+                    stopBinauralBeats();
+                }
                 switch (currentPomodoroState.sessionType) {
                     case 'work': currentPomodoroState.timeLeft = pomodoroSettings.work * 60; break;
                     case 'shortBreak': currentPomodoroState.timeLeft = pomodoroSettings.shortBreak * 60; break;
@@ -503,18 +774,21 @@
             });
 
             pomodoroSkipBtn.addEventListener('click', () => {
-                startNextPomodoroSession(true); // true indicates skipped
-                 // After skipping, the timer is paused. User needs to click start.
+                if (pomodoroSettings.autoPlayBeats && isBinauralPlaying && currentPomodoroState.sessionType === 'work') {
+                    stopBinauralBeats();
+                }
+                startNextPomodoroSession(true); 
                 currentPomodoroState.isRunning = false;
                 clearInterval(pomodoroInterval);
                 savePomodoroState();
-                updatePomodoroDisplay(); // Ensure display updates after skip
+                updatePomodoroDisplay(); 
             });
             
-            // Load Pomodoro settings from localStorage
             workDurationInput.value = pomodoroSettings.work;
             shortBreakDurationInput.value = pomodoroSettings.shortBreak;
             longBreakDurationInput.value = pomodoroSettings.longBreak;
+            autoPlayBinauralCheckbox.checked = pomodoroSettings.autoPlayBeats;
+            autoPlayBinauralFreqSelect.value = pomodoroSettings.autoPlayBeatsFreq;
 
 
             // --- Binaural Beats Module ---
@@ -522,112 +796,126 @@
             const binauralFrequencySelect = document.getElementById('binauralFrequency');
             const binauralVolumeSlider = document.getElementById('binauralVolume');
             const binauralStatusDisplay = document.getElementById('binauralStatus');
+            const visualizerCanvas = document.getElementById('binauralVisualizer');
+            const visualizerCtx = visualizerCanvas.getContext('2d');
 
             let binauralAudioCtx;
             let oscillatorL, oscillatorR;
             let gainNodeL, gainNodeR;
-            let stereoPanner;
+            let pannerL, pannerR;
+            let mergerNode, analyserNode, masterGain;
             let isBinauralPlaying = false;
-            const BASE_FREQUENCY = 100; // Hz, can be adjusted
+            const BASE_FREQUENCY = 100; 
+            let visualizerAnimationId;
 
             const createBinauralAudioGraph = () => {
                 if (!binauralAudioCtx) {
-                     binauralAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    try {
+                        binauralAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) {
+                        console.error("Web Audio API not supported or context creation failed.", e);
+                        const customAlert = document.createElement('div');
+                        customAlert.textContent = "Web Audio API is not supported in this browser.";
+                        customAlert.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background-color:var(--pomodoro-work-bg); color:var(--text-primary); padding:10px 20px; border-radius:5px; box-shadow:var(--card-shadow); z-index:1000;";
+                        document.body.appendChild(customAlert);
+                        setTimeout(() => customAlert.remove(), 3000);
+                        return false;
+                    }
                 }
-                if (!binauralAudioCtx) {
-                    alert("Web Audio API is not supported in this browser.");
-                    return false;
-                }
-
-                // Ensure context is running
                 if (binauralAudioCtx.state === 'suspended') {
-                    binauralAudioCtx.resume();
+                    binauralAudioCtx.resume().catch(e => console.error("Error resuming Binaural AudioContext:", e));
                 }
 
                 oscillatorL = binauralAudioCtx.createOscillator();
                 oscillatorR = binauralAudioCtx.createOscillator();
                 gainNodeL = binauralAudioCtx.createGain();
                 gainNodeR = binauralAudioCtx.createGain();
-                stereoPanner = binauralAudioCtx.createStereoPanner();
+                pannerL = binauralAudioCtx.createStereoPanner();
+                pannerR = binauralAudioCtx.createStereoPanner();
+                mergerNode = binauralAudioCtx.createChannelMerger(2); 
+                masterGain = binauralAudioCtx.createGain(); 
+                analyserNode = binauralAudioCtx.createAnalyser();
 
                 oscillatorL.type = 'sine';
                 oscillatorR.type = 'sine';
+                pannerL.pan.value = -1; 
+                pannerR.pan.value = 1;  
+                
+                analyserNode.fftSize = 2048; 
+                const bufferLength = analyserNode.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength); 
 
-                // Connect L to Left channel, R to Right channel
                 oscillatorL.connect(gainNodeL);
-                gainNodeL.connect(stereoPanner); // Connect gain to panner input
+                gainNodeL.connect(pannerL);
+                pannerL.connect(mergerNode, 0, 0); 
 
                 oscillatorR.connect(gainNodeR);
-                gainNodeR.connect(stereoPanner); // Connect gain to panner input
+                gainNodeR.connect(pannerR);
+                pannerR.connect(mergerNode, 0, 1); 
+
+                mergerNode.connect(masterGain);
+                masterGain.connect(analyserNode);
+                analyserNode.connect(binauralAudioCtx.destination);
                 
-                // For true binaural, one osc per ear.
-                // This setup sends L to left, R to right.
-                // We'll set one panner to -1 (left) and the other to 1 (right)
-                // Correction: A single stereoPanner node is used. We need to route each oscillator to a separate panner or directly.
-                // The typical way is: oscL -> gainL -> pannerL (pan = -1) -> destination
-                //                     oscR -> gainR -> pannerR (pan = 1) -> destination
-                // Or, more simply, if we want to send one freq to left ear and other to right:
-                // oscL -> gainL -> channelMerger (input 0)
-                // oscR -> gainR -> channelMerger (input 1)
-                // channelMerger -> destination
-                // For this implementation, let's use two gain nodes and connect them directly to a single stereo panner,
-                // then adjust frequencies. The effect relies on headphones.
-                // A simpler setup for binaural effect:
-                // osc1 -> gain1 -> panner (set to -1 for left) -> destination
-                // osc2 -> gain2 -> panner (set to +1 for right) -> destination
-                // This requires two panners.
-                // Let's try: oscL -> gainL (vol) -> pannerL -> merger -> masterGain -> destination
-                //             oscR -> gainR (vol) -> pannerR -> merger -> masterGain -> destination
-                // Simpler:
-                // oscL -> gainL -> destination (pan this one left if possible, or rely on headphones)
-                // oscR -> gainR -> destination (pan this one right if possible)
-                // The StereoPannerNode takes a mono input and positions it in stereo space.
-                // So, we need two chains feeding into the destination, or one chain per ear.
-
-                // Corrected approach for distinct frequencies to each ear:
-                // We need two full chains if we want independent control before merging or sending to destination.
-                // For simplicity, let's create two oscillators, connect each to its own gain node.
-                // Then, connect gainNodeL to the left input of a ChannelMergerNode,
-                // and gainNodeR to the right input of a ChannelMergerNode.
-                // Then connect the ChannelMergerNode to the destination.
-
-                // Simpler for now:
-                // oscL -> gainL -> pannerL (set to -1) -> destination
-                // oscR -> gainR -> pannerR (set to +1) -> destination
-                // This means two panner nodes.
-
-                // Let's use the standard method: two oscillators, one for each ear.
-                // oscL -> gainL -> destination (this will be mono to both ears)
-                // oscR -> gainR -> destination (this will also be mono to both ears)
-                // The brain creates the binaural beat if the frequencies are slightly different.
-                // For distinct ear delivery (needed for perceived binaural effect with headphones):
-                // Create oscL, gainL. Create oscR, gainR.
-                // Create a panner node for L, set pan to -1. Connect gainL to pannerL, pannerL to destination.
-                // Create a panner node for R, set pan to 1. Connect gainR to pannerR, pannerR to destination.
-
-                // This is the most straightforward for distinct ear output:
-                const pannerL = binauralAudioCtx.createStereoPanner();
-                pannerL.pan.value = -1; // Full left
-                const pannerR = binauralAudioCtx.createStereoPanner();
-                pannerR.pan.value = 1; // Full right
-
-                oscillatorL.connect(gainNodeL).connect(pannerL).connect(binauralAudioCtx.destination);
-                oscillatorR.connect(gainNodeR).connect(pannerR).connect(binauralAudioCtx.destination);
-
-                return true;
+                return { dataArray, bufferLength }; 
             };
+            
+            function drawVisualizer() {
+                if (!isBinauralPlaying || !analyserNode) {
+                    visualizerCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height); 
+                    return;
+                }
+                const bufferLength = analyserNode.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                analyserNode.getByteTimeDomainData(dataArray); 
+
+                visualizerCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--input-bg').trim();
+                visualizerCtx.fillRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+                visualizerCtx.lineWidth = 2;
+                visualizerCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim();
+                visualizerCtx.beginPath();
+
+                const sliceWidth = visualizerCanvas.width * 1.0 / bufferLength;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128.0; 
+                    const y = v * visualizerCanvas.height / 2;
+
+                    if (i === 0) {
+                        visualizerCtx.moveTo(x, y);
+                    } else {
+                        visualizerCtx.lineTo(x, y);
+                    }
+                    x += sliceWidth;
+                }
+                visualizerCtx.lineTo(visualizerCanvas.width, visualizerCanvas.height / 2);
+                visualizerCtx.stroke();
+                visualizerAnimationId = requestAnimationFrame(drawVisualizer);
+            }
+
 
             const playBinauralBeats = () => {
-                if (!createBinauralAudioGraph()) return;
+                if (isBinauralPlaying) {
+                    stopBinauralBeats(true); 
+                }
+                if (visualizerAnimationId) {
+                    cancelAnimationFrame(visualizerAnimationId);
+                    visualizerAnimationId = null;
+                }
+
+                const setupSuccess = createBinauralAudioGraph();
+                if (!setupSuccess) return;
 
                 const frequencyDifference = parseFloat(binauralFrequencySelect.value);
                 const volume = parseFloat(binauralVolumeSlider.value);
 
                 oscillatorL.frequency.setValueAtTime(BASE_FREQUENCY, binauralAudioCtx.currentTime);
                 oscillatorR.frequency.setValueAtTime(BASE_FREQUENCY + frequencyDifference, binauralAudioCtx.currentTime);
-
-                gainNodeL.gain.setValueAtTime(volume, binauralAudioCtx.currentTime);
-                gainNodeR.gain.setValueAtTime(volume, binauralAudioCtx.currentTime);
+                gainNodeL.gain.setValueAtTime(1.0, binauralAudioCtx.currentTime); 
+                gainNodeR.gain.setValueAtTime(1.0, binauralAudioCtx.currentTime);
+                masterGain.gain.setValueAtTime(volume, binauralAudioCtx.currentTime); 
                 
                 try {
                     oscillatorL.start();
@@ -635,38 +923,43 @@
                     isBinauralPlaying = true;
                     binauralPlayPauseBtn.textContent = 'Pause';
                     binauralStatusDisplay.textContent = `Status: Playing (${BASE_FREQUENCY}Hz & ${BASE_FREQUENCY + frequencyDifference}Hz)`;
+                    drawVisualizer();
                 } catch (e) {
-                    // Handle if start() was already called - this shouldn't happen with proper state management
                     console.error("Error starting oscillators:", e);
-                    // Attempt to stop and recreate if in a bad state
-                    stopBinauralBeats(true); // silent stop
-                    setTimeout(playBinauralBeats, 50); // try again
+                    if (oscillatorL && typeof oscillatorL.stop === 'function') oscillatorL.stop();
+                    if (oscillatorR && typeof oscillatorR.stop === 'function') oscillatorR.stop();
+                    isBinauralPlaying = false; 
                 }
             };
 
             const stopBinauralBeats = (silent = false) => {
-                if (oscillatorL) oscillatorL.stop();
-                if (oscillatorR) oscillatorR.stop();
-                // It's good practice to disconnect nodes when done to free up resources,
-                // especially if the AudioContext is long-lived.
-                // For this app, we might recreate them on next play.
-                // oscillatorL.disconnect(); gainNodeL.disconnect(); pannerL.disconnect();
-                // oscillatorR.disconnect(); gainNodeR.disconnect(); pannerR.disconnect();
-                // For simplicity, we'll just stop and let them be garbage collected if audioCtx is closed/nulled.
-                // Or, if we reuse the audioCtx, we create new oscillators each time.
+                if (visualizerAnimationId) {
+                    cancelAnimationFrame(visualizerAnimationId);
+                    visualizerAnimationId = null;
+                }
+                visualizerCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height); 
+
+                if (oscillatorL) { try { oscillatorL.stop(); oscillatorL.disconnect(); } catch(e) {} }
+                if (oscillatorR) { try { oscillatorR.stop(); oscillatorR.disconnect(); } catch(e) {} }
+                if (gainNodeL) try { gainNodeL.disconnect(); } catch(e) {}
+                if (gainNodeR) try { gainNodeR.disconnect(); } catch(e) {}
+                if (pannerL) try { pannerL.disconnect(); } catch(e) {}
+                if (pannerR) try { pannerR.disconnect(); } catch(e) {}
+                if (mergerNode) try { mergerNode.disconnect(); } catch(e) {}
+                if (masterGain) try { masterGain.disconnect(); } catch(e) {}
+                if (analyserNode) try { analyserNode.disconnect(); } catch(e) {}
+                
+                oscillatorL = oscillatorR = gainNodeL = gainNodeR = pannerL = pannerR = mergerNode = masterGain = analyserNode = null;
 
                 isBinauralPlaying = false;
                 if (!silent) {
                     binauralPlayPauseBtn.textContent = 'Play';
-                    binauralStatusDisplay.textContent = 'Status: Stopped';
+                    const currentFreqDiff = parseFloat(binauralFrequencySelect.value);
+                    binauralStatusDisplay.textContent = `Status: Stopped (Selected: ${BASE_FREQUENCY}Hz & ${BASE_FREQUENCY + currentFreqDiff}Hz)`;
                 }
             };
 
             binauralPlayPauseBtn.addEventListener('click', () => {
-                if (!binauralAudioCtx || binauralAudioCtx.state === 'suspended') {
-                     if(!createBinauralAudioGraph()) return; // Attempt to create/resume context
-                }
-                
                 if (isBinauralPlaying) {
                     stopBinauralBeats();
                 } else {
@@ -676,10 +969,8 @@
 
             binauralFrequencySelect.addEventListener('change', () => {
                 if (isBinauralPlaying) {
-                    stopBinauralBeats(true); // Stop silently
-                    playBinauralBeats();    // Re-play with new frequency
+                    playBinauralBeats();    
                 } else {
-                    // Update status display even if not playing
                     const frequencyDifference = parseFloat(binauralFrequencySelect.value);
                     binauralStatusDisplay.textContent = `Status: Stopped (Selected: ${BASE_FREQUENCY}Hz & ${BASE_FREQUENCY + frequencyDifference}Hz)`;
                 }
@@ -687,27 +978,44 @@
 
             binauralVolumeSlider.addEventListener('input', () => {
                 const volume = parseFloat(binauralVolumeSlider.value);
-                if (gainNodeL && gainNodeR && binauralAudioCtx) { // Check if nodes exist
-                    gainNodeL.gain.setValueAtTime(volume, binauralAudioCtx.currentTime);
-                    gainNodeR.gain.setValueAtTime(volume, binauralAudioCtx.currentTime);
+                if (masterGain && binauralAudioCtx) { 
+                    masterGain.gain.setTargetAtTime(volume, binauralAudioCtx.currentTime, 0.01); 
                 }
             });
 
 
             // --- Initial Load ---
             renderTasks();
-            updatePomodoroDisplay(); // Initialize Pomodoro display from saved state or defaults
+            updatePomodoroDisplay(); 
             
-            // Update binaural status on load based on selected frequency
             const initialFreqDiff = parseFloat(binauralFrequencySelect.value);
             binauralStatusDisplay.textContent = `Status: Stopped (Selected: ${BASE_FREQUENCY}Hz & ${BASE_FREQUENCY + initialFreqDiff}Hz)`;
-
-            // Close modal if clicked outside content
-            window.onclick = function(event) {
-                if (event.target == editTaskModal) {
-                    closeModal('editTaskModal');
+            
+            setTimeout(() => {
+                if (visualizerCanvas) {
+                    visualizerCanvas.width = visualizerCanvas.offsetWidth; 
+                    visualizerCanvas.height = visualizerCanvas.offsetHeight;
                 }
+            }, 0);
+
+
+            window.onclick = function(event) {
+                if (event.target == editTaskModal) { closeModal('editTaskModal'); }
+                if (event.target == infoModal) { infoModal.style.display = 'none'; }
             }
+            window.addEventListener('resize', () => {
+                 setTimeout(() => { 
+                    if (visualizerCanvas) {
+                        visualizerCanvas.width = visualizerCanvas.offsetWidth;
+                        visualizerCanvas.height = visualizerCanvas.offsetHeight;
+                         if (isBinauralPlaying && visualizerAnimationId === null) { 
+                            drawVisualizer(); 
+                        } else if (!isBinauralPlaying) {
+                            visualizerCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height); 
+                        }
+                    }
+                }, 100);
+            });
         });
     </script>
 </body>
