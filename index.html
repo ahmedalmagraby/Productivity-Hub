@@ -175,13 +175,23 @@
                     </svg>
                 </button>
                 <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">Productivity Hub</h1>
-                <div class="absolute right-0 top-1/2 -translate-y-1/2"> <label for="themeSwitcher" class="sr-only">Select Theme</label>
-                    <select id="themeSwitcher" class="input-field p-2 rounded-md text-sm w-28">
-                        <option value="light">Light Theme</option>
-                        <option value="dark">Dark Theme</option>
-                        <option value="forest">Forest Theme</option>
-                        <option value="ocean">Ocean Theme</option>
-                    </select>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2" id="newThemeSwitcherContainer">
+                    <button id="themeToggleButton" type="button" class="p-2 rounded-md hover:bg-opacity-20 hover:bg-slate-500 transition-colors" aria-label="Toggle theme">
+                        <!-- Sun Icon (default) -->
+                        <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.34 19.66l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.34 4.34l-.707-.707" />
+                        </svg>
+                        <!-- Moon Icon (initially hidden) -->
+                        <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <div id="themeDropdown" class="hidden absolute right-0 mt-2 w-36 bg-[var(--bg-secondary)] rounded-md shadow-lg py-1 z-50 border border-[var(--border-color)]">
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--border-color)]" data-theme="light">Light Theme</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--border-color)]" data-theme="dark">Dark Theme</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--border-color)]" data-theme="forest">Forest Theme</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--border-color)]" data-theme="ocean">Ocean Theme</a>
+                    </div>
                 </div>
             </div>
             <p class="tagline text-sm md:text-base mt-1">Your all-in-one tool for focus and task management.</p>
@@ -316,18 +326,57 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Theme Switcher ---
-            const themeSwitcher = document.getElementById('themeSwitcher');
+            // --- Theme Switcher START ---
             const body = document.body;
             const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeToggleButton = document.getElementById('themeToggleButton');
+            const themeDropdown = document.getElementById('themeDropdown');
+            const themeIconSun = document.getElementById('themeIconSun');
+            const themeIconMoon = document.getElementById('themeIconMoon');
+            const themeOptions = document.querySelectorAll('#themeDropdown a[data-theme]');
 
             const applyTheme = (themeName) => {
                 body.className = themeName + '-theme antialiased'; // Keep antialiased
                 localStorage.setItem('theme', themeName);
-                themeSwitcher.value = themeName;
+                // themeSwitcher.value = themeName; // Old element, remove/comment
             };
-            themeSwitcher.addEventListener('change', (e) => applyTheme(e.target.value));
-            applyTheme(savedTheme); // Apply saved theme on load
+
+            const updateThemeIcon = (themeName) => {
+                if (themeName === 'dark' || themeName === 'ocean') { // Assuming ocean is dark
+                    themeIconSun.classList.add('hidden');
+                    themeIconMoon.classList.remove('hidden');
+                } else {
+                    themeIconSun.classList.remove('hidden');
+                    themeIconMoon.classList.add('hidden');
+                }
+            };
+
+            applyTheme(savedTheme);
+            updateThemeIcon(savedTheme);
+
+            themeToggleButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click-away from immediately closing
+                themeDropdown.classList.toggle('hidden');
+            });
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const themeName = option.getAttribute('data-theme');
+                    applyTheme(themeName);
+                    updateThemeIcon(themeName);
+                    themeDropdown.classList.add('hidden');
+                });
+            });
+
+            window.addEventListener('click', (event) => {
+                if (!themeDropdown.classList.contains('hidden')) {
+                    if (event.target !== themeToggleButton && !themeToggleButton.contains(event.target) && !themeDropdown.contains(event.target)) {
+                        themeDropdown.classList.add('hidden');
+                    }
+                }
+            });
+            // --- Theme Switcher END ---
 
             // --- Motivational Quotes ---
             const quoteElement = document.getElementById('motivationalQuote'); // Targets the quote element in the main header
